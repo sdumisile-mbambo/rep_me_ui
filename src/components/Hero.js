@@ -23,28 +23,31 @@ const ContainerStyled = styled(Box)(({ theme }) => ({
 
 export default function Hero() {
   return (
-    <Box id="hero" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 5 }}>
+    <Box
+      id="hero"
+      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 5 }}
+    >
       <ContainerStyled>
-        <Grid container spacing={2} >
+        <Grid container spacing={2}>
           <Grid item xs={8}>
-          <Stack spacing={2}>
-          <Typography component="span" variant="h1">
-              Launch into the future with,
-            </Typography>
-          
-            <Typography
-              component="span"
-              variant="h1"
-              sx={{
-                color: (theme) => (theme.palette.mode === 'light' ? 'primary.main' : 'primary.light'),
-                marginLeft: 2,
-              }}
-            >
-              RepMe
-            </Typography>
-</Stack>
-           
-            <Typography  color="text.secondary">
+            <Stack spacing={2}>
+              <Typography component="span" variant="h1">
+                Launch into the future with,
+              </Typography>
+
+              <Typography
+                component="span"
+                variant="h1"
+                sx={{
+                  color: (theme) => (theme.palette.mode === 'light' ? 'primary.main' : 'primary.light'),
+                  marginLeft: 2,
+                }}
+              >
+                RepMe
+              </Typography>
+            </Stack>
+
+            <Typography color="text.secondary">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas feugiat vestibulum velit a elementum.
               Quisque euismod tortor eget pretium tincidunt
             </Typography>

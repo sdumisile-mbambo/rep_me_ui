@@ -27,6 +27,11 @@ import BookingDetail from './pages/bookings/BookingDetail';
 import Home from './pages/Home';
 import UserHome from './pages/UserHome';
 import UpdateProfile from './pages/profile/UpdateProfile';
+import SubscribtionDetails from './pages/subscription/SubscribtionDetails';
+import SubscribtionUpdate from './pages/subscription/SubscribtionUpdate';
+import SubscribtionSubscribe from './pages/subscription/SubscribtionSubscribe';
+import SubscribtionSuccess from './pages/subscription/SubscribtionSuccess';
+import SubscribtionFailure from './pages/subscription/SubscribtionFailure';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -41,8 +46,11 @@ export default function Router() {
       children: [
         { path: 'dashboard', element: <UserHome /> },
         { path: 'profile', element: <UpdateProfile /> },
-        { path: 'chef/:id', element: <EditChef /> },
-        { path: 'add/chef', element: <AddChefForm /> },
+        { path: 'subscription', element: <SubscribtionDetails /> },
+        { path: 'subscription/subscribe', element: <SubscribtionSubscribe /> },
+        { path: 'subscription/update-plan', element: <SubscribtionUpdate /> },
+        { path: 'subscription/success', element: <SubscribtionSuccess /> },
+        { path: 'subscription/failure', element: <SubscribtionFailure /> },
         { path: 'cuisines', element: <Cuisines /> },
         { path: 'packages', element: <Packages /> },
         { path: 'add/cuisine', element: <AddCuisineForm /> },

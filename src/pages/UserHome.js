@@ -92,8 +92,8 @@ export default function UserHome() {
       <Container maxWidth="xl">
         {isLoading ? (
           <>
-            <Skeleton variant="rounded" width={'100%'} height={60} sx={{ marginBottom: 10 }} />
-            <Skeleton variant="rounded" width={'100%'} height={60} />
+            <Skeleton variant="rounded" width={'100%'} height={200} sx={{ marginBottom: 10 }} />
+            <Skeleton variant="rounded" width={'100%'} height={500} />
           </>
         ) : (
           <>

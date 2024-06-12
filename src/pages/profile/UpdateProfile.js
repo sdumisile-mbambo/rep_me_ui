@@ -2,17 +2,6 @@ import React, { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography, Box, Card } from '@mui/material';
-
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-// sections
-
-import PhoneIcon from '@mui/icons-material/Phone';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import AddCardIcon from '@mui/icons-material/AddCard';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Skeleton from '@mui/material/Skeleton';
 // ----------------------------------------------------------------------
 import ProfileFormBusiness from '../../sections/profile/ProfileFormBusiness';
@@ -20,6 +9,7 @@ import ProfileFormAgent from '../../sections/profile/ProfileFormAgent';
 import ProfileSerice from '../../services/ProfileService';
 // components
 import Page from '../../components/Page';
+import PricingEditable from '../../components/PricingEditable';
 
 export default function UpdateProfile() {
   const theme = useTheme();
@@ -59,7 +49,6 @@ export default function UpdateProfile() {
       });
   };
 
-
   const geBusinessProfile = async () => {
     const token = await sessionStorage.getItem('authToken');
     _profileService
@@ -83,34 +72,25 @@ export default function UpdateProfile() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const curentPackage = {
+    name: 'Basic',
+  };
   return (
     <Page title="Profile">
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 1 }}>
-          Profile
-        </Typography>
-
         {userProfile == null ? (
           <>
-            <Skeleton variant="rounded" width={'100%'} height={60} />
-            <Skeleton variant="rounded" width={'100%'} height={60} sx={{marginTop: 5}}/>
+            <Skeleton variant="rounded" width={'100%'} height={500} />
           </>
         ) : (
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab icon={<AccountCircleIcon />} iconPosition="start" label="Profle Details" value="1" />
-                <Tab icon={<AddCardIcon />} iconPosition="start" label="Billing Details" value="2" />
-              </TabList>
-            </Box>
-            <TabPanel value="1">
-              {' '}
-              {isAgent ? <ProfileFormAgent profile={userProfile} setUserProfile={setUserProfile}/> : <ProfileFormBusiness profile={userProfile} setUserProfile={setUserProfile}/>}
-            </TabPanel>
-            <TabPanel value="2">
-              <Card />
-            </TabPanel>
-          </TabContext>
+          <Box sx={{marginTop: 2}}>
+            {isAgent ? (
+              <ProfileFormAgent profile={userProfile} setUserProfile={setUserProfile} />
+            ) : (
+              <ProfileFormBusiness profile={userProfile} setUserProfile={setUserProfile} />
+            )}
+          </Box>
         )}
       </Container>
     </Page>

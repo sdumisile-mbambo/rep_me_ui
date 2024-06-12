@@ -17,6 +17,11 @@ const navConfig = [
     icon: getIcon('eva:person-outline'),
   },
   {
+    title: 'subscription',
+    path: '/home/subscription',
+    icon: getIcon('eva:person-outline'),
+  },
+  {
     title: 'careers',
     path: '/home/careers',
     icon: getIcon('eva:people-fill'),
