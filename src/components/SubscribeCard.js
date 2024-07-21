@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,9 +16,65 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import Stack from '@mui/material/Stack';
 import MerchantCard from './MerchantCard';
 import PayFast from './PayFast';
+import SubscriptionService from '../services/SubscriptionService';
+import FeedBackModal from './FeedBackModal';
 
-function SubscribeCard({ selectedPackage }) {
+function SubscribeCard({ selectedPackage, update }) {
   console.log(selectedPackage);
+
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [header, setHeader]= useState("");
+  const [body, setBody]= useState("");
+  const [isBusy, setIsBusy] = useState(false);
+
+  const _subscriptionService = new SubscriptionService();
+
+  const handleClose=()=>{
+    setOpen(false);
+    navigate('/home/subscription', { replace: false });
+  }
+
+
+  const updatePlan =async()=>{
+    setIsBusy(true);
+    const token = await sessionStorage.getItem('authToken');
+
+    const updatePlanRequest = {
+      "amount": parseInt(selectedPackage?.price,10),
+      "cycles": "0",
+      "frequency":3,
+      "runDate": new Date().toDateString(),
+      "subscriptionPackage": selectedPackage?.title
+    }
+
+    _subscriptionService
+    .updateSubscriptionDetails(token, updatePlanRequest)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.body); 
+    })
+    .then((responseJson) => {
+      setHeader("Subscription Update");
+      setBody("Your subscription details have been updated successfully.");
+      setOpen(true);
+      setIsBusy(false);
+    })
+    .catch((error) => {
+      setHeader("Subscription Update");
+      setBody("We were unable to update your subscription at this moment. Please try again later.");
+      setOpen(true);
+      console.log('UPDATE-SUBSCRIPTION|ERROR', error);
+      setIsBusy(false);
+    });
+
+  }
+
+
+
+
   return (
     <Container
       id="pricing"
@@ -88,7 +146,7 @@ function SubscribeCard({ selectedPackage }) {
             </Box>
 
             <Typography variant="body1" color="text.secondary">
-              Quickly build an effective pricing table for your potential customers with this layout.
+             {`Subscribe to RepMe today! Includes a once off sign up fee of : ${selectedPackage.onceOffFee}`}
             </Typography>
             <Divider
               sx={{
@@ -127,6 +185,7 @@ function SubscribeCard({ selectedPackage }) {
             display: 'flex',
             flexDirection: 'column',
             gap: 4,
+            overflow: 'visible'
           }}
         >
           <CardContent>
@@ -159,9 +218,12 @@ function SubscribeCard({ selectedPackage }) {
           </CardContent>
 
           <CardActions>
-            <PayFast />
+            {update ? <Button fullWidth variant='contained' component="a" onClick={updatePlan}>
+              Change Plan
+            </Button> : <PayFast selectedPackage={selectedPackage} />}
           </CardActions>
         </Card>
+        <FeedBackModal   handleClose={handleClose} open={open} header={header} body={body}/>
       </Stack>
     </Container>
   );

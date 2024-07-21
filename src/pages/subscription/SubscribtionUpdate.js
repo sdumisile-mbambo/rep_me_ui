@@ -12,7 +12,7 @@ export default function SubscribtionUpdate() {
 
   return (
     <Page title="Change Plan">
-          <SubscribeCard selectedPackage={selectedPackage}/>
+          <SubscribeCard selectedPackage={selectedPackage} update/>
     </Page>
   );
 }

@@ -26,7 +26,7 @@ export default class ProfileSerice {
   }
 
   getAgentProfile(token) {
-    return fetch(`${this.apiUrl}/sales/profile`, {
+    return fetch(`${this.apiUrl}/get/sales/profile`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -37,7 +37,7 @@ export default class ProfileSerice {
   }
 
   getBuisinessProfile(token) {
-    return fetch(`${this.apiUrl}/business/profile`, {
+    return fetch(`${this.apiUrl}/get/business/profile`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',

@@ -19,19 +19,23 @@ export default function UpdateProfile() {
   const _profileService = new ProfileSerice();
 
   useEffect(() => {
-    if (userProfile != null && userProfile.businessProfile === null) {
-      setIsAgent(true);
+    async function fetchUser() {
+      const cachedUser = await JSON.parse(sessionStorage.getItem('user'))
+      if (cachedUser.role === "1") {
+        getProfile();
+        setIsAgent(true);
+      }
+      if (cachedUser.role === "2") {
+        geBusinessProfile();
+        setIsAgent(false);
+      }
     }
-  }, [userProfile]);
-
-  useEffect(() => {
-    getProfile();
-    geBusinessProfile();
+    fetchUser();
   }, []);
+
 
   const getProfile = async () => {
     const token = await sessionStorage.getItem('authToken');
-
     _profileService
       .getAgentProfile(token)
       .then((response) => {
@@ -41,7 +45,6 @@ export default function UpdateProfile() {
         throw response.statusText;
       })
       .then((responseJson) => {
-        console.log('UPDATE-AGENT-PROFILE|RESPONSE', responseJson);
         setUserProfile(responseJson);
       })
       .catch((error) => {
@@ -60,7 +63,6 @@ export default function UpdateProfile() {
         throw response.statusText;
       })
       .then((responseJson) => {
-        console.log('GET-BUSINESS-PROFILE|RESPONSE', responseJson);
         setIsAgent(false);
         setUserProfile(responseJson);
       })
@@ -69,13 +71,8 @@ export default function UpdateProfile() {
       });
   };
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
-  const curentPackage = {
-    name: 'Basic',
-  };
+
   return (
     <Page title="Profile">
       <Container maxWidth="xl">
@@ -84,7 +81,7 @@ export default function UpdateProfile() {
             <Skeleton variant="rounded" width={'100%'} height={500} />
           </>
         ) : (
-          <Box sx={{marginTop: 2}}>
+          <Box sx={{ marginTop: 2 }}>
             {isAgent ? (
               <ProfileFormAgent profile={userProfile} setUserProfile={setUserProfile} />
             ) : (

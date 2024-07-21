@@ -11,7 +11,7 @@ export default function SubscribtionSubscribe() {
   const selectedPackage = location.state;
   return (
     <Page title="Select Plan">
-          <SubscribeCard selectedPackage={selectedPackage}/>
+          <SubscribeCard selectedPackage={selectedPackage} update={false}/>
     </Page>
   );
 }

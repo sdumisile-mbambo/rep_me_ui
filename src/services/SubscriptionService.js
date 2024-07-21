@@ -11,4 +11,18 @@ getSubscriptionDetails(token) {
       },
     });
   }
+
+
+  updateSubscriptionDetails(token, request) {
+    console.log("request", request);
+    return fetch(`${this.apiUrl}/update/subscription`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(request),
+    });
+  }
 }

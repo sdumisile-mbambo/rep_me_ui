@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Card, Link, Container, Typography } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
 // hooks
 import useResponsive from '../../hooks/useResponsive';
 // components
 import Page from '../../components/Page';
+
 import PricingEditable from '../../components/PricingEditable';
 import SubscriptionService from '../../services/SubscriptionService';
 // ----------------------------------------------------------------------
@@ -16,6 +17,7 @@ import SubscriptionService from '../../services/SubscriptionService';
 export default function SubscribtionDetails() {
   const _subscriptionService = new SubscriptionService();
   const [customerSubscription, setCustmerSubscription] = useState('');
+
 
   useEffect(() => {
     getSubscriptionDetails();
@@ -41,13 +43,10 @@ export default function SubscribtionDetails() {
       });
   };
 
-  const curentPackage = {
-    name: 'Basic',
-  };
 
   return (
     <Page title="Subscription Details">
-      {customerSubscription === '' ? <></> : <PricingEditable repMePackage={customerSubscription} />}
+      {customerSubscription === '' ? <> <Skeleton variant="rounded" width={'100%'} height={500} /></> : <PricingEditable repMePackage={customerSubscription} />}
     </Page>
   );
 }

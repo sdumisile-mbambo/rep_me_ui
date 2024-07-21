@@ -34,15 +34,25 @@ export default function UserHome() {
   useEffect(() => {
     if (userProfile != null) {
       setIsLoading(false);
-      if (userProfile?.user?.profileSetup) {
+      if (userProfile?.profileSetup) {
         setProfileComplete(true);
       }
     }
   }, [userProfile]);
 
   useEffect(() => {
-    getProfile();
-    geBusinessProfile();
+    async function fetchUser() {
+      const cachedUser = await JSON.parse(sessionStorage.getItem('user'))
+      if (cachedUser.role === "1") {
+        getProfile();
+        setIsAgent(true);
+      }
+      if (cachedUser.role === "2") {
+        geBusinessProfile();
+        setIsAgent(false);
+      }
+    }
+    fetchUser();
   }, []);
 
   const getProfile = async () => {
@@ -56,8 +66,6 @@ export default function UserHome() {
         throw response.statusText;
       })
       .then((responseJson) => {
-        console.log('GET-AGENT-PROFILE|RESPONSE', responseJson);
-        setIsAgent(true);
         setUserProfile(responseJson);
       })
       .catch((error) => {
@@ -76,8 +84,6 @@ export default function UserHome() {
         throw response.statusText;
       })
       .then((responseJson) => {
-        console.log('GET-BUSINESS-PROFILE|RESPONSE', responseJson);
-        setIsAgent(false);
         setUserProfile(responseJson);
       })
       .catch((error) => {
@@ -99,14 +105,14 @@ export default function UserHome() {
           <>
             {profileComplete ? (
               <ProfileCompleteCard
-                name={isAgent ? userProfile?.user?.name : userProfile?.businessProfile?.businessName}
-                surname={isAgent ? userProfile?.user?.surname : ''}
+                name={isAgent ? userProfile?.name : userProfile?.businessName}
+                surname={isAgent ? userProfile?.surname : ''}
                 agent={isAgent}
               />
             ) : (
               <ProfileIncompleteCard
-                name={isAgent ? userProfile?.user?.name : userProfile?.businessProfile?.businessName}
-                surname={isAgent ? userProfile?.user?.surname : ''}
+                name={isAgent ? userProfile?.name : userProfile?.businessName}
+                surname={isAgent ? userProfile?.surname : ''}
                 agent={isAgent}
               />
             )}

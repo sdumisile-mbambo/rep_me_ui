@@ -27,27 +27,31 @@ import { locationOptions } from '../../data/LocationOptions';
 import { availabilityOptions } from '../../data/AvailabityList';
 
 import ProfileSerice from '../../services/ProfileService';
+import FeedBackModal from '../../components/FeedBackModal';
 // ----------------------------------------------------------------------
 
 export default function ProfileFormAgent({ profile , setUserProfile }) {
   const navigate = useNavigate();
   const [userProfile] = useState(profile);
   const [dob, setDob] = useState('1990-04-17');
-  const [location, setLocation] = useState(userProfile?.profile?.address);
-  const [hasLicense, setHasLicense] = useState(userProfile?.profile?.hasDriversLicense);
+  const [location, setLocation] = useState(userProfile?.address);
+  const [hasLicense, setHasLicense] = useState(userProfile?.hasDriversLicense);
   const [hasCar, setHasCar] = useState(
-    userProfile?.profile?.hasOwnTransport !== null ? userProfile?.profile?.hasOwnTransport : false
+    userProfile?.hasOwnTransport !== null ? userProfile?.hasOwnTransport : false
   );
-  const [qualification, setQualification] = useState('');
+  const [qualification, setQualification] = useState(userProfile?.qualification);
   const [hasExperience, setHasExperience] = useState(false);
   const [hasSalesExperience, setHasSalesExperience] = useState(false);
-  const [renumeration, setRenumeration] = useState(userProfile?.profile?.expectedRemuneration !== null ? userProfile?.profile?.expectedRemuneration : 1000);
-  const [shortCourceOptIn, setShortCourceOptIn] = useState(userProfile?.profile?.shortCourses !== null ? userProfile?.profile?.shortCourses : false);
-  const [availability, setAvaiilabity] = useState( userProfile?.profile?.availability !== null ? userProfile?.profile?.availability : '');
-  const [isShortTerm, setIsShortTerm] = useState(userProfile?.profile?.shortTermPositions !== null ? userProfile?.profile?.shortTermPositions : false);
-  const [isPhonePreffered, setIsPhonePreffered] = useState(userProfile?.profile?.phoneWork? "phone": "face");
-
+  const [renumeration, setRenumeration] = useState(userProfile?.expectedRemuneration !== null ? userProfile?.expectedRemuneration : 1000);
+  const [shortCourceOptIn, setShortCourceOptIn] = useState(userProfile?.shortCourses !== null ? userProfile?.shortCourses : false);
+  const [availability, setAvaiilabity] = useState( userProfile?.availability !== null ? userProfile?.availability : '');
+  const [isShortTerm, setIsShortTerm] = useState(userProfile?.shortTermPositions !== null ? userProfile?.shortTermPositions : false);
+  const [isPhonePreffered, setIsPhonePreffered] = useState(userProfile?.phoneWork? "phone": "face");
+  const [open, setOpen] = useState(false);
+  const [header, setHeader]= useState("");
+  const [body, setBody]= useState("");
   const _profileService = new ProfileSerice();
+  const [isBusy, setIsBusy] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
     name: Yup.string().required('First name required'),
@@ -57,14 +61,18 @@ export default function ProfileFormAgent({ profile , setUserProfile }) {
     phone: Yup.string().required('Phone Number is required'),
   });
 
+  const handleClose=()=>{
+    setOpen(false);
+  }
+
 
 
   const defaultValues = {
-    name: userProfile?.user?.name,
-    surname: userProfile?.user?.surname,
-    email: userProfile?.user?.email,
-    idNumber: userProfile?.profile?.idNumber,
-    phone: userProfile?.user?.contactNumber,
+    name: userProfile?.name,
+    surname: userProfile?.surname,
+    email: userProfile?.email,
+    idNumber: userProfile?.idNumber,
+    phone: userProfile?.contactNumber,
   };
 
   const methods = useForm({
@@ -78,7 +86,7 @@ export default function ProfileFormAgent({ profile , setUserProfile }) {
   } = methods;
 
   const onSubmit = async (values) => {
-    console.log('default values', defaultValues);
+    setIsBusy(true);
     const request = {
       ...values,
       availability,
@@ -103,23 +111,21 @@ export default function ProfileFormAgent({ profile , setUserProfile }) {
         }
       })
       .then((responseJson) => {
-        console.log('UPDATE-AGENT-PROFILE|RESPONSE', responseJson);
+        setHeader("Profile Update");
+        setBody("Your profile details have been updated successfully.");
+        setOpen(true);
         setUserProfile(request);
+        setIsBusy(false);
       })
       .catch((error) => {
+        setHeader("Profile Update");
+        setBody("We were unable to update your profile at this moment. Please try again later.");
+        setOpen(true);
         console.log('UPDATE-AGENT-PROFILE|ERROR', error);
+        setIsBusy(false);
       });
   };
 
-  useEffect(() => {
-    getLocation();
-  }, []);
-
-  const getLocation = () => {
-    for (let i = 0; i < locationOptions.length; i += 1) {
-      console.log(locationOptions[i])      
-    }
-  };
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
@@ -164,7 +170,7 @@ export default function ProfileFormAgent({ profile , setUserProfile }) {
           </FormControl>
 
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Hiighest Qualification</InputLabel>
+            <InputLabel id="demo-simple-select-label">Highest Qualification</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -269,9 +275,10 @@ export default function ProfileFormAgent({ profile , setUserProfile }) {
           </FormControl>
         </Stack>
 
-        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isBusy}>
           Update
         </LoadingButton>
+        <FeedBackModal   handleClose={handleClose} open={open} header={header} body={body}/>
       </Stack>
     </FormProvider>
   );

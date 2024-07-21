@@ -28,6 +28,7 @@ import { salesTypes } from '../../data/SalesTypesList';
 import { locationOptions } from '../../data/LocationOptions';
 // ----------------------------------------------------------------------
 import ProfileSerice from '../../services/ProfileService';
+import FeedBackModal from '../../components/FeedBackModal';
 
 const MAX = 1000000;
 const MIN = 1000;
@@ -48,10 +49,10 @@ export default function ProfileFormBusiness({ profile }) {
   const [userProfile,setUserProfile ] = useState(profile);
   const _profileService = new ProfileSerice();
   const [address, setAddress] = useState(
-    userProfile?.businessProfile?.address != null ? userProfile?.businessProfile?.address : ''
+    userProfile?.address != null ? userProfile?.address : ''
   );
   const [natureOfBusiness, setNatureOfBusiness] = useState(
-    userProfile?.businessProfile?.natureOfBusiness != null ? userProfile?.businessProfile?.natureOfBusiness : null
+    userProfile?.natureOfBusiness != null ? userProfile?.natureOfBusiness : null
   );
   const [clients, setClients] = useState([]);
   const [salesType, setSalesType] = useState('');
@@ -59,17 +60,28 @@ export default function ProfileFormBusiness({ profile }) {
   const [value1, setValue1] = useState([0, 10000]);
   const [noOfAgents, setNoOfAgents] = useState(1);
   const [targetSales, setTargetSales] = useState(1);
+
+
+  const [open, setOpen] = useState(false);
+  const [header, setHeader]= useState("");
+  const [body, setBody]= useState("");
+  const [isBusy, setIsBusy] = useState(false);
+
   const minDistance = 1000;
   const RegisterSchema = Yup.object().shape({
     name: Yup.string().required('Nature Of business is required'),
   });
 
   const defaultValues = {
-    name: userProfile?.businessProfile?.businessName,
-    contactPersonName: userProfile?.user?.name,
-    contactPersonSurname: userProfile?.user?.surname,
-    contactEmail: userProfile?.user?.email,
+    name: userProfile?.businessName,
+    contactPersonName: userProfile?.contactPersonName,
+    contactPersonSurname: userProfile?.contactPersonSurname,
+    contactEmail: userProfile?.contactEmail,
   };
+
+  const handleClose=()=>{
+    setOpen(false);
+  }
 
   const methods = useForm({
     resolver: yupResolver(RegisterSchema),
@@ -82,14 +94,13 @@ export default function ProfileFormBusiness({ profile }) {
   } = methods;
 
   const onSubmit = async (values) => {
+    setIsBusy(true);
     const request = {
       ...defaultValues,
       address,
       natureOfBusiness,
     };
-    console.log('default values', request);
     const token = await sessionStorage.getItem('authToken');
-
     _profileService
       .updateBusinessProfile(request, token)
       .then((response) => {
@@ -98,11 +109,18 @@ export default function ProfileFormBusiness({ profile }) {
         }
       })
       .then((responseJson) => {
-        console.log('UPDATE-AGENT-PROFILE|RESPONSE', responseJson);
+        setHeader("Profile Update");
+        setBody("Your profile details have been updated successfully.");
+        setOpen(true);
         setUserProfile(request);
+        setIsBusy(false);
       })
       .catch((error) => {
+        setHeader("Profile Update");
+        setBody("We were unable to update your profile at this moment. Please try again later.");
+        setOpen(true);
         console.log('UPDATE-AGENT-PROFILE|ERROR', error);
+        setIsBusy(false);
       });
   };
 
@@ -372,9 +390,10 @@ export default function ProfileFormBusiness({ profile }) {
           </Stack>
         </FormControl> */}
 
-        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isBusy}>
           Update
         </LoadingButton>
+        <FeedBackModal   handleClose={handleClose} open={open} header={header} body={body}/>
       </Stack>
     </FormProvider>
   );
