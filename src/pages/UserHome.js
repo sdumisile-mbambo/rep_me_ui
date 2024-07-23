@@ -91,7 +91,7 @@ export default function UserHome() {
       });
   };
 
-  
+
 
   return (
     <Page title="Dashboard">
@@ -116,7 +116,8 @@ export default function UserHome() {
                 agent={isAgent}
               />
             )}
-            <Grid container spacing={3}>
+
+            {profileComplete ? <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={6}>
                 {isAgent ? (
                   <AppWidgetSummary title="Available Vacancies" total={100} icon={'ant-design:pie-chart-filled'} />
@@ -126,24 +127,26 @@ export default function UserHome() {
               </Grid>
 
               <Grid item xs={12} sm={6} md={6}>
-              {isAgent ? (
+                {isAgent ? (
                   <AppWidgetSummary
-                  title="Your Active Applications"
-                  total={0}
-                  color="info"
-                  icon={'ant-design:info-circle-filled'}
-                />
+                    title="Your Active Applications"
+                    total={0}
+                    color="info"
+                    icon={'ant-design:info-circle-filled'}
+                  />
                 ) : (
                   <AppWidgetSummary
-                  title="Your Active Vacancies"
-                  total={0}
-                  color="info"
-                  icon={'ant-design:info-circle-filled'}
-                />
+                    title="Your Active Vacancies"
+                    total={0}
+                    color="info"
+                    icon={'ant-design:info-circle-filled'}
+                  />
                 )}
-               
+
               </Grid>
-            </Grid>
+            </Grid> : <iframe src="https://www.youtube.com/embed/JbEDmtSzil0?si=aTtR5lEfTRFso7TB" title="intro_video" style={{ width: "100%", height: "700px", borderRadius: "20px", marginTop: 35, border: "none" }} />
+            }
+
           </>
         )}
       </Container>

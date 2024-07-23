@@ -51,7 +51,7 @@ export default function Features() {
   const selectedFeature = items[selectedItemIndex];
 
   return (
-    <Box id="features" sx={{ py: { xs: 8, sm: 16 }, backgroundColor: '#ecd3a62e' , paddingLeft: 30, paddingRight: 30}}>
+    <Box id="features" sx={{ py: { xs: 8, sm: 16 }, backgroundColor: '#9a99972e' , paddingLeft: 30, paddingRight: 30}}>
       <Grid container spacing={6}>
         <Grid item xs={12} md={6}>
           <div>
@@ -60,7 +60,7 @@ export default function Features() {
             </Typography>
             <Typography
               variant="body1"
-              color="text.secondary"
+              color="#424343"
               sx={{ mb: { xs: 2, sm: 4 } }}
             >
               Integer tortor dui, fringilla in arcu dignissim, scelerisque euismod justo. Aliquam congue nunc arcu, vitae accumsan lectus elementum vel. Sed a tortor ut odio consectetur tincidunt. Aliquam porttitor ultrices sapien non scelerisque. In malesuada orci felis, ac tempus libero ornare id. 
@@ -116,7 +116,7 @@ export default function Features() {
               <Typography color="text.primary" variant="body2" fontWeight="bold">
                 {selectedFeature.title}
               </Typography>
-              <Typography color="text.secondary" variant="body2" sx={{ my: 0.5 }}>
+              <Typography color="#424343" variant="body2" sx={{ my: 0.5 }}>
                 {selectedFeature.description}
               </Typography>
               <Link
@@ -204,7 +204,7 @@ export default function Features() {
                       {title}
                     </Typography>
                     <Typography
-                      color="text.secondary"
+                      color="#424343"
                       variant="body2"
                       sx={{ my: 0.5 }}
                     >

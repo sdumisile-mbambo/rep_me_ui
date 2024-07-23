@@ -44,13 +44,13 @@ export default function ProfileIncompleteCard({ name, surname, agent, color = 'p
         bgcolor: '#f4e7ca',
         ...sx,
         marginBottom: 5,
-        minHeight: 160,
-        height: 190,
+        minHeight: 170,
+        height: 200,
         padding: 5,
       }}
       {...other}
     >
-      <Grid container spacing={1} sx={{ height: 190 }}>
+      <Grid container spacing={1} sx={{ height: 200 }}>
         <Grid item xs={8}>
           {agent ? (
             <Typography variant="h4" sx={{ mb: 1 }}>
@@ -73,7 +73,7 @@ export default function ProfileIncompleteCard({ name, surname, agent, color = 'p
           )}
 
           <Grid item xs={8}>
-            <Button variant="contained" sx={{ marginTop: 3 }} onClick={handleButtonClck}>
+            <Button variant="contained" sx={{ marginTop: 3, marginBottom: 3 }} onClick={handleButtonClck}>
               Complete Profile
             </Button>
           </Grid>

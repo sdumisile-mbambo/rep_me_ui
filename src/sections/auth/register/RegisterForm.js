@@ -17,7 +17,7 @@ export default function RegisterForm() {
   const navigate = useNavigate();
   const _authService = new AuthSerice();
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isBusy, setIsBusy] = useState(false);
   const RegisterSchema = Yup.object().shape({
     name: Yup.string().required('First name required'),
     surname: Yup.string().required('Last name required'),
@@ -47,6 +47,7 @@ export default function RegisterForm() {
   } = methods;
 
   const onSubmit = async (values) => {
+    setIsBusy(true);
     values.otp = "0000";
     values.termsAndConditions = false;
     console.log(values);
@@ -65,11 +66,12 @@ export default function RegisterForm() {
         }
       })
       .then((responseJson) => {
+        setIsBusy(false);
         if (responseJson != null) {
           navigate('/sign-in', { replace: true });
         }
       })
-      .catch((error) => {});
+      .catch((error) => {setIsBusy(false);});
   };
 
   return (

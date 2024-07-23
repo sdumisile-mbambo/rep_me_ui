@@ -78,7 +78,6 @@ export default function Home() {
       <Hero />
       <Features />
       <Divider />
-      <Divider />
       {/* <Highlights /> */}
       <Divider />
       <Pricing />

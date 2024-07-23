@@ -39,12 +39,12 @@ export default function ProfileCompleteCard({ name, surname, agent, color = 'pri
         ...sx,
         marginBottom: 5,
         minHeight: 160,
-        height: 190,
+        height: 200,
         padding: 5,
       }}
       {...other}
     >
-      <Grid container spacing={1} sx={{ height: 190 }}>
+      <Grid container spacing={1} sx={{ height: 200 }}>
         <Grid item xs={8}>
           {agent ? (
             <Typography variant="h4" sx={{ mb: 1 }}>

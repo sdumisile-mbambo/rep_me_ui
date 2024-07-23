@@ -1,13 +1,13 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import * as React from 'react';
-import { alpha } from '@mui/material';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 const ContainerStyled = styled(Box)(({ theme }) => ({
   maxWidth: 1600,
@@ -31,10 +31,6 @@ export default function Hero() {
         <Grid container spacing={2}>
           <Grid item xs={8}>
             <Stack spacing={2}>
-              <Typography component="span" variant="h1">
-                Launch into the future with,
-              </Typography>
-
               <Typography
                 component="span"
                 variant="h1"
@@ -43,13 +39,33 @@ export default function Hero() {
                   marginLeft: 2,
                 }}
               >
-                RepMe
+                RepMe,
+              </Typography>
+              <Typography component="span" variant="h1">
+                The way to
+                get work done.
               </Typography>
             </Stack>
+            <Stack spacing={2} direction="row" sx={{ width: '50%', marginTop: 6 }}>
+              <Button
+                fullWidth
+                variant="contained"
+                endIcon={<ArrowRightAltIcon />}
+              >
+                Hire Agents
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                endIcon={<ArrowRightAltIcon />}
 
-            <Typography color="text.secondary">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas feugiat vestibulum velit a elementum.
-              Quisque euismod tortor eget pretium tincidunt
+              >
+                Find Work
+              </Button>
+            </Stack>
+
+            <Typography color="text.secondary" sx={{ marginTop: 5 }}>
+              Take control of your staffing. Get qualified people on demand. Low cost, no contracts, no minimums, no risk.
             </Typography>
           </Grid>
 
@@ -57,27 +73,8 @@ export default function Hero() {
             <img src="/static/illustrations/working.png" alt="login" />
           </Grid>
         </Grid>
-        <Box
-          id="image"
-          sx={(theme) => ({
-            mt: { xs: 8, sm: 10 },
-            alignSelf: 'center',
-            height: { xs: 200, sm: 700 },
-            width: '80%',
-            backgroundImage:
-              theme.palette.mode === 'light'
-                ? 'url("/static/illustrations/app_demo_2.png")'
-                : 'url("/static/illustrations/app_demo_2.png")',
-            backgroundSize: 'cover',
-            borderRadius: '10px',
-            outline: '1px solid',
-            outlineColor: theme.palette.mode === 'light' ? alpha('#BFCCD9', 0.5) : alpha('#9CCCFC', 0.1),
-            boxShadow:
-              theme.palette.mode === 'light'
-                ? `0 0 12px 8px ${alpha('#9CCCFC', 0.2)}`
-                : `0 0 24px 12px ${alpha('#033363', 0.2)}`,
-          })}
-        />
+        <iframe src="https://www.youtube.com/embed/JbEDmtSzil0?si=aTtR5lEfTRFso7TB" title="intro_video" style={{ width: "80%", height: "700px", borderRadius: "20px", marginTop: 35, border: "none" }} />
+
       </ContainerStyled>
     </Box>
   );

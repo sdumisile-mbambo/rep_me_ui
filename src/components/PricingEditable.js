@@ -205,10 +205,10 @@ function PricingEditable({ repMePackage }) {
         <Typography component="h2" variant="h4" color="text.primary">
           RepMe Pricing
         </Typography>
-        <Typography variant="body1" color="text.secondary">
+        {/* <Typography variant="body1" color="text.secondary">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
           Nulla sollicitudin sapien sem, eget fringilla diam ultrices sit amet.
-        </Typography>
+        </Typography> */}
       </Box>
       <Grid container spacing={3} alignItems="center" justifyContent="center">
         {tiers.map((tier) => (

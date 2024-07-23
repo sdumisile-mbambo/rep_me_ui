@@ -18,6 +18,8 @@ export default function RegisterFormBusiness() {
   const _authService = new AuthSerice();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
+
 
   const RegisterSchema = Yup.object().shape({
     businessName: Yup.string().required('Company name required'),
@@ -50,6 +52,7 @@ export default function RegisterFormBusiness() {
   } = methods;
 
   const onSubmit = async (values) => {
+    setIsBusy(true);
     values.otp = '0000';
     values.termsAndConditions = false;
     console.log(values);
@@ -69,11 +72,14 @@ export default function RegisterFormBusiness() {
         }
       })
       .then((responseJson) => {
+        setIsBusy(true);
         if (responseJson != null) {
           navigate('/sign-in', { replace: true });
         }
       })
-      .catch((error) => {});
+      .catch((error) => {
+        setIsBusy(false);
+      });
   };
 
   return (
@@ -119,7 +125,7 @@ export default function RegisterFormBusiness() {
           }}
         />
 
-        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isBusy}>
           Register
         </LoadingButton>
       </Stack>
